@@ -1,9 +1,9 @@
 import type {FunctionHeaderSegmentBracketContentTreeNode} from "../function-header-segment-bracket-content/FunctionHeaderSegmentBracketContentTreeNode.ts";
-import type {UnknownFunctionHeaderSegmentClosingBracketCharacter} from "./UnknownFunctionHeaderSegmentClosingBracketCharacter.ts";
-import type {UnknownFunctionHeaderSegmentOpeningBracketCharacter} from "./UnknownFunctionHeaderSegmentOpeningBracketCharacter.ts";
+import type {UnknownFunctionHeaderSegmentClosingBracketCharacter} from "../../characters/UnknownFunctionHeaderSegmentClosingBracketCharacter.ts";
+import type {UnknownFunctionHeaderSegmentOpeningBracketCharacter} from "../../characters/UnknownFunctionHeaderSegmentOpeningBracketCharacter.ts";
 
 export type UnknownFunctionHeaderSegmentTreeNodeChildren = readonly [
-	UnknownFunctionHeaderSegmentOpeningBracketCharacter,
-	FunctionHeaderSegmentBracketContentTreeNode | null,
-	UnknownFunctionHeaderSegmentClosingBracketCharacter,
+	openingBracketCharacter: UnknownFunctionHeaderSegmentOpeningBracketCharacter,
+	content: FunctionHeaderSegmentBracketContentTreeNode | null,
+	closingBracketCharacter: UnknownFunctionHeaderSegmentClosingBracketCharacter,
 ];

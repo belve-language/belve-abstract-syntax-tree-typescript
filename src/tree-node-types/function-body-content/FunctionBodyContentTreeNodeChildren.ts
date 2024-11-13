@@ -1,7 +1,7 @@
-import type {PaddedStatementsTreeNode} from "../statements/PaddedStatementsTreeNode.ts";
+import type {StatementsTreeNode} from "../statements/StatementsTreeNode.ts";
 import type {WhitespaceCharactersTreeNode} from "../whitespace-characters/WhitespaceCharactersTreeNode.ts";
 
 export type FunctionBodyContentTreeNodeChildren = readonly [
-	WhitespaceCharactersTreeNode | null,
-	PaddedStatementsTreeNode | null,
+	initialWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+	statements: StatementsTreeNode | null,
 ];
