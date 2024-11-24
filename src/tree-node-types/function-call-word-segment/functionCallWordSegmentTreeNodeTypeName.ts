@@ -1,0 +1,1 @@
+export const functionCallWordSegmentTreeNodeTypeName = "functionCallWordSegment";

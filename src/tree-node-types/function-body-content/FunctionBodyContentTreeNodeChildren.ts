@@ -3,5 +3,6 @@ import type {WhitespaceCharactersTreeNode} from "../whitespace-characters/Whites
 
 export type FunctionBodyContentTreeNodeChildren = readonly [
 	initialWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
-	statements: StatementsTreeNode | null,
+	statements: StatementsTreeNode,
+	finalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
 ];

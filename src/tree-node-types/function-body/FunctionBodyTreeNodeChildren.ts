@@ -1,9 +1,10 @@
-import type {FunctionBodyClosingBracketCharacter} from "../../characters/FunctionBodyClosingBracketCharacter.ts";
-import type {FunctionBodyOpeningBracketCharacter} from "../../characters/FunctionBodyOpeningBracketCharacter.ts";
+import type {ClosingCurlyBracketCharacter} from "../../characters/ClosingCurlyBracketCharacter.ts";
+import type {OpeningCurlyBracketCharacter} from "../../characters/OpeningCurlyBracketCharacter.ts";
 import type {FunctionBodyContentTreeNode} from "../function-body-content/FunctionBodyContentTreeNode.ts";
+import type {WhitespaceCharactersTreeNode} from "../whitespace-characters/WhitespaceCharactersTreeNode.ts";
 
 export type FunctionBodyTreeNodeChildren = readonly [
-	openingBracketCharacter: FunctionBodyOpeningBracketCharacter,
-	content: FunctionBodyContentTreeNode,
-	closingBracketCharacter: FunctionBodyClosingBracketCharacter,
+	openingBracketCharacter: OpeningCurlyBracketCharacter,
+	content: FunctionBodyContentTreeNode | null | WhitespaceCharactersTreeNode,
+	closingBracketCharacter: ClosingCurlyBracketCharacter,
 ];

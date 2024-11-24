@@ -1,8 +1,8 @@
-import type {FunctionHeaderTreeNode} from "../function-header/FunctionHeaderTreeNode.ts";
-import type {OperatedStatementsTreeNode} from "../operated-statements/OperatedStatementsTreeNode.ts";
-import type {PaddedFunctionBodyTreeNode} from "../padded-function-body/PaddedFunctionBodyTreeNode.ts";
+import type {StatementsRestStatementsTreeNode} from "../statements-rest-statements/StatementsRestStatementsTreeNode.ts";
+import type {BlockTreeNode} from "../block/BlockTreeNode.ts";
+import type {FunctionCallTreeNode} from "../function-call/FunctionCallTreeNode.ts";
 
 export type StatementsTreeNodeChildren = readonly [
-	firstStatement: FunctionHeaderTreeNode | PaddedFunctionBodyTreeNode,
-	restStatements: OperatedStatementsTreeNode | null,
+	firstStatement: FunctionCallTreeNode | BlockTreeNode,
+	restStatements: StatementsRestStatementsTreeNode | null,
 ];
