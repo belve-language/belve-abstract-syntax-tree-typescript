@@ -1,0 +1,2 @@
+export const functionHeaderKnownSegmentContentTreeNodeTypeName =
+	"functionHeaderKnownSegmentContent";

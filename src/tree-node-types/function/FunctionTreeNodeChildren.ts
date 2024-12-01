@@ -1,7 +1,7 @@
 import type {FunctionBodyTreeNode} from "../function-body/FunctionBodyTreeNode.ts";
-import type {PaddedFunctionHeaderTreeNode} from "../padded-function-header/PaddedFunctionHeaderTreeNode.ts";
+import type {FunctionHeaderTreeNode} from "../function-header/FunctionHeaderTreeNode.ts";
 
 export type FunctionTreeNodeChildren = readonly [
-	paddedHeader: PaddedFunctionHeaderTreeNode | null,
+	header: FunctionHeaderTreeNode | null,
 	body: FunctionBodyTreeNode,
 ];

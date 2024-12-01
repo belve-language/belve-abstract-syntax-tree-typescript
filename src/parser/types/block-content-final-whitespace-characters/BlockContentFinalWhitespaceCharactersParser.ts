@@ -4,63 +4,57 @@ import type {IdentifierCharacter} from "../../../characters/IdentifierCharacter.
 import type {ClosingRoundBracketCharacter} from "../../../characters/ClosingRoundBracketCharacter.ts";
 import type {ClosingSquareBracketCharacter} from "../../../characters/ClosingSquareBracketCharacter.ts";
 import type {WhitespaceCharacter} from "../../../characters/WhitespaceCharacter.ts";
-import {createFunctionBodyTreeNode} from "../../../tree-node-types/function-body/createFunctionBodyTreeNode.ts";
-import type {FunctionBodyTreeNode} from "../../../tree-node-types/function-body/FunctionBodyTreeNode.ts";
+import {createBlockTreeNode} from "../../../tree-node-types/function-body/createBlockTreeNode.ts";
+import type {BlockTreeNode} from "../../../tree-node-types/function-body/BlockTreeNode.ts";
 import {createWhitespaceCharactersTreeNode} from "../../../tree-node-types/whitespace-characters/createWhitespaceCharactersTreeNode.ts";
 import type {WhitespaceCharactersTreeNode} from "../../../tree-node-types/whitespace-characters/WhitespaceCharactersTreeNode.ts";
 import type {Parser} from "../../Parser.ts";
-import {FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser} from "../function-call-unknown-segment-bracket-content-final-whitespace-characters-parser/FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser.ts";
 import {PaddedFunctionHeaderFinalWhitespaceCharactersParser} from "../padded-function-header-final-whitespace-characters/PaddedFunctionHeaderFinalWhitespaceCharactersParser.ts";
 import {StatementsRestStatementsAfterOperatorWhitespaceCharactersParser} from "../statements-rest-statements-after-operator-whitespace-characters/StatementsRestStatementsAfterOperatorWhitespaceCharactersParser.ts";
 
 export class BlockContentFinalWhitespaceCharactersParser implements Parser {
-	private readonly functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
-	private readonly functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter;
+	private readonly blockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
+	private readonly blockClosingBracketCharacter: ClosingCurlyBracketCharacter;
 
 	private readonly blockStack: readonly (readonly [
-		functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
-		functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter,
+		blockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+		blockClosingBracketCharacter: ClosingCurlyBracketCharacter,
 	])[];
 
 	private readonly sourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
 
 	public constructor(
-		functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
-		functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter,
+		blockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+		blockClosingBracketCharacter: ClosingCurlyBracketCharacter,
 
 		blockStack: readonly (readonly [
-			functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
-			functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter,
+			blockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+			blockClosingBracketCharacter: ClosingCurlyBracketCharacter,
 		])[],
 
 		sourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
 	) {
-		this.functionBodyContentFinalWhitespaceCharacters =
-			functionBodyContentFinalWhitespaceCharacters;
-
-		this.functionBodyClosingBracketCharacter = functionBodyClosingBracketCharacter;
+		this.blockContentFinalWhitespaceCharacters = blockContentFinalWhitespaceCharacters;
+		this.blockClosingBracketCharacter = blockClosingBracketCharacter;
 		this.blockStack = blockStack;
 		this.sourceFileContentFinalWhitespaceCharacters = sourceFileContentFinalWhitespaceCharacters;
 	}
 
 	public parseWhitespace(
 		character: WhitespaceCharacter,
-	): FunctionBodyContentFinalWhitespaceCharactersParser {
-		const newFunctionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode =
-			createWhitespaceCharactersTreeNode(
-				character,
-				this.functionBodyContentFinalWhitespaceCharacters,
-			);
+	): BlockContentFinalWhitespaceCharactersParser {
+		const newBlockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode =
+			createWhitespaceCharactersTreeNode(character, this.blockContentFinalWhitespaceCharacters);
 
-		const functionBodyContentFinalWhitespaceCharactersParser =
-			new FunctionBodyContentFinalWhitespaceCharactersParser(
-				newFunctionBodyContentFinalWhitespaceCharacters,
-				this.functionBodyClosingBracketCharacter,
+		const blockContentFinalWhitespaceCharactersParser =
+			new BlockContentFinalWhitespaceCharactersParser(
+				newBlockContentFinalWhitespaceCharacters,
+				this.blockClosingBracketCharacter,
 				this.blockStack,
 				this.sourceFileContentFinalWhitespaceCharacters,
 			);
 
-		return functionBodyContentFinalWhitespaceCharactersParser;
+		return blockContentFinalWhitespaceCharactersParser;
 	}
 
 	public parseOpeningSquareBracket(): never {
@@ -71,18 +65,18 @@ export class BlockContentFinalWhitespaceCharactersParser implements Parser {
 
 	public parseClosingSquareBracket(
 		character: ClosingSquareBracketCharacter,
-	): FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser {
-		const functionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser =
-			new FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser(
+	): FunctionCallUnknownSegmentContentFinalWhitespaceCharactersParser {
+		const functionCallUnknownSegmentContentFinalWhitespaceCharactersParser =
+			new FunctionCallUnknownSegmentContentFinalWhitespaceCharactersParser(
 				null,
 				character,
-				this.functionBodyContentFinalWhitespaceCharacters,
-				this.functionBodyClosingBracketCharacter,
+				this.blockContentFinalWhitespaceCharacters,
+				this.blockClosingBracketCharacter,
 				this.blockStack,
 				this.sourceFileContentFinalWhitespaceCharacters,
 			);
 
-		return functionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser;
+		return functionCallUnknownSegmentContentFinalWhitespaceCharactersParser;
 	}
 
 	public parseOpeningCurlyBracket(
@@ -90,33 +84,33 @@ export class BlockContentFinalWhitespaceCharactersParser implements Parser {
 	):
 		| PaddedFunctionHeaderFinalWhitespaceCharactersParser
 		| StatementsRestStatementsAfterOperatorWhitespaceCharactersParser {
-		const functionBody: FunctionBodyTreeNode = createFunctionBodyTreeNode(
+		const block: BlockTreeNode = createBlockTreeNode(
 			character,
-			this.functionBodyContentFinalWhitespaceCharacters,
-			this.functionBodyClosingBracketCharacter,
+			this.blockContentFinalWhitespaceCharacters,
+			this.blockClosingBracketCharacter,
 		);
 
 		const [firstBlockStackEntry] = this.blockStack;
 
 		if (typeof firstBlockStackEntry === "undefined") {
-			const paddedFunctionHeaderFinalWhitespaceCharactersParser =
+			const functionHeaderFinalWhitespaceCharactersParser =
 				new PaddedFunctionHeaderFinalWhitespaceCharactersParser(
-					functionBody,
+					block,
 					this.sourceFileContentFinalWhitespaceCharacters,
 				);
 
-			return paddedFunctionHeaderFinalWhitespaceCharactersParser;
+			return functionHeaderFinalWhitespaceCharactersParser;
 		}
 
 		const restBlockStackEntries: readonly (readonly [
-			functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
-			functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter,
+			blockContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+			blockClosingBracketCharacter: ClosingCurlyBracketCharacter,
 		])[] = this.blockStack.slice(1);
 
 		const statementsRestStatementsAfterOperatorWhitespaceCharactersParser =
 			new StatementsRestStatementsAfterOperatorWhitespaceCharactersParser(
 				null,
-				functionBody,
+				block,
 				restBlockStackEntries,
 			);
 
@@ -125,22 +119,19 @@ export class BlockContentFinalWhitespaceCharactersParser implements Parser {
 
 	public parseClosingCurlyBracket(
 		character: ClosingCurlyBracketCharacter,
-	): FunctionBodyContentFinalWhitespaceCharactersParser {
-		const functionBodyContentFinalWhitespaceCharactersParser =
-			new FunctionBodyContentFinalWhitespaceCharactersParser(
+	): BlockContentFinalWhitespaceCharactersParser {
+		const blockContentFinalWhitespaceCharactersParser =
+			new BlockContentFinalWhitespaceCharactersParser(
 				null,
 				character,
 				[
-					[
-						this.functionBodyContentFinalWhitespaceCharacters,
-						this.functionBodyClosingBracketCharacter,
-					],
-					...this.stack,
+					[this.blockContentFinalWhitespaceCharacters, this.blockClosingBracketCharacter],
+					...this.blockStack,
 				],
 				this.sourceFileContentFinalWhitespaceCharacters,
 			);
 
-		return functionBodyContentFinalWhitespaceCharactersParser;
+		return blockContentFinalWhitespaceCharactersParser;
 	}
 
 	public parseOpeningRoundBracket(): never {
@@ -152,6 +143,7 @@ export class BlockContentFinalWhitespaceCharactersParser implements Parser {
 	public parseClosingRoundBracket(character: ClosingRoundBracketCharacter): unknown {}
 
 	public parseIdentifier(character: IdentifierCharacter): unknown {}
+
 	public parseOperator(): never {
 		throw new Error(
 			"Operator should not be present in final whitespace characters of function body content.",
@@ -160,7 +152,7 @@ export class BlockContentFinalWhitespaceCharactersParser implements Parser {
 
 	public finalize(): never {
 		throw new Error(
-			"Finalize should not be called on FunctionBodyContentFinalWhitespaceCharactersParser.",
+			"Finalize should not be called on BlockContentFinalWhitespaceCharactersParser.",
 		);
 	}
 }

@@ -7,17 +7,15 @@ import {createWhitespaceCharactersTreeNode} from "../../../tree-node-types/white
 import type {WhitespaceCharactersTreeNode} from "../../../tree-node-types/whitespace-characters/WhitespaceCharactersTreeNode.ts";
 import type {Parser} from "../../Parser.ts";
 
-export class FunctionBodyFunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser
-	implements Parser
-{
-	private readonly functionCallUnknownSegmentBracketContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
+export class FunctionCallUnknownSegmentContentFinalWhitespaceCharactersParser implements Parser {
+	private readonly functionCallUnknownSegmentContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
 	private readonly functionCallUnknownSegmentClosingBracketCharacter: ClosingSquareBracketCharacter;
 	private readonly functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
 	private readonly functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter;
 	private readonly sourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null;
 
 	public constructor(
-		functionCallUnknownSegmentBracketContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
+		functionCallUnknownSegmentContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
 		functionCallUnknownSegmentClosingBracketCharacter: ClosingSquareBracketCharacter,
 		functionBodyContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode | null,
 		functionBodyClosingBracketCharacter: ClosingCurlyBracketCharacter,
@@ -35,16 +33,14 @@ export class FunctionBodyFunctionCallUnknownSegmentBracketContentFinalWhitespace
 
 	public parseWhitespace(
 		character: WhitespaceCharacter,
-	): FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser {
+	): FunctionCallUnknownSegmentContentFinalWhitespaceCharactersParser {
 		const newWhitespaceCharacters: WhitespaceCharactersTreeNode =
 			createWhitespaceCharactersTreeNode(character, this.whitespaceCharacters);
 
-		const functionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser =
-			new FunctionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser(
-				newWhitespaceCharacters,
-			);
+		const functionCallUnknownSegmentContentFinalWhitespaceCharactersParser =
+			new FunctionCallUnknownSegmentContentFinalWhitespaceCharactersParser(newWhitespaceCharacters);
 
-		return functionCallUnknownSegmentBracketContentFinalWhitespaceCharactersParser;
+		return functionCallUnknownSegmentContentFinalWhitespaceCharactersParser;
 	}
 
 	public parseOpeningSquareBracket(): unknown {
@@ -74,12 +70,10 @@ export class FunctionBodyFunctionCallUnknownSegmentBracketContentFinalWhitespace
 	public parseIdentifier(character: IdentifierCharacter): unknown {
 		const identifierCharactersTreeNode = createIdentifierCharactersTreeNode(character, null);
 
-		const functionCallUnknownSegmentBracketContentIdentifierCharactersParser =
-			new FunctionCallUnknownSegmentBracketContentIdentifierCharactersParser(
-				identifierCharactersTreeNode,
-			);
+		const functionCallUnknownSegmentContentIdentifierCharactersParser =
+			new FunctionCallUnknownSegmentContentIdentifierCharactersParser(identifierCharactersTreeNode);
 
-		return functionCallUnknownSegmentBracketContentIdentifierCharactersParser;
+		return functionCallUnknownSegmentContentIdentifierCharactersParser;
 	}
 
 	public parseOperator(): never {

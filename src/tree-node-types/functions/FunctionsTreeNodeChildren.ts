@@ -1,7 +1,8 @@
 import type {FunctionTreeNode} from "../function/FunctionTreeNode.ts";
-import type {FunctionsRestFunctionsTreeNode} from "../functions-rest-functions/FunctionsRestFunctionsTreeNode.ts";
+import type {FunctionsSeparatedRestFunctionsTreeNode} from "../functions-separated-rest-functions/FunctionsSeparatedRestFunctionsTreeNode.ts";
+import type {FunctionsTreeNode} from "./FunctionsTreeNode.ts";
 
 export type FunctionsTreeNodeChildren = readonly [
 	firstFunction: FunctionTreeNode,
-	restFunctions: FunctionsRestFunctionsTreeNode | null,
+	restFunctions: FunctionsSeparatedRestFunctionsTreeNode | null | FunctionsTreeNode,
 ];

@@ -3,27 +3,32 @@ import type {WhitespaceCharacter} from "../../../characters/WhitespaceCharacter.
 import {createWhitespaceCharactersTreeNode} from "../../../tree-node-types/whitespace-characters/createWhitespaceCharactersTreeNode.ts";
 import type {WhitespaceCharactersTreeNode} from "../../../tree-node-types/whitespace-characters/WhitespaceCharactersTreeNode.ts";
 import type {Parser} from "../../Parser.ts";
-import {FunctionBodyContentFinalWhitespaceCharactersParser} from "../function-body-content-final-whitespace-characters/FunctionBodyContentFinalWhitespaceCharactersParser.ts";
+import {FunctionBodyContentParser} from "../function-body-content/FunctionBodyContentParser.ts";
 
 export class SourceFileContentFinalWhitespaceCharactersParser implements Parser {
-	private readonly whitespaceCharacters: WhitespaceCharactersTreeNode | null;
+	private readonly sourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode;
 
-	public constructor(whitespaceCharacters: WhitespaceCharactersTreeNode) {
-		this.whitespaceCharacters = whitespaceCharacters;
+	public constructor(sourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode) {
+		this.sourceFileContentFinalWhitespaceCharacters = sourceFileContentFinalWhitespaceCharacters;
 	}
 
-	public finalize(): WhitespaceCharactersTreeNode | null {
-		return this.whitespaceCharacters;
+	public finalize(): WhitespaceCharactersTreeNode {
+		return this.sourceFileContentFinalWhitespaceCharacters;
 	}
 
 	public parseWhitespace(
 		character: WhitespaceCharacter,
 	): SourceFileContentFinalWhitespaceCharactersParser {
-		const newWhitespaceCharacters: WhitespaceCharactersTreeNode =
-			createWhitespaceCharactersTreeNode(character, this.whitespaceCharacters);
+		const newSourceFileContentFinalWhitespaceCharacters: WhitespaceCharactersTreeNode =
+			createWhitespaceCharactersTreeNode(
+				character,
+				this.sourceFileContentFinalWhitespaceCharacters,
+			);
 
 		const sourceFileContentFinalWhitespaceCharactersParser =
-			new SourceFileContentFinalWhitespaceCharactersParser(newWhitespaceCharacters);
+			new SourceFileContentFinalWhitespaceCharactersParser(
+				newSourceFileContentFinalWhitespaceCharacters,
+			);
 
 		return sourceFileContentFinalWhitespaceCharactersParser;
 	}
@@ -42,13 +47,11 @@ export class SourceFileContentFinalWhitespaceCharactersParser implements Parser 
 
 	public parseClosingCurlyBracket(
 		character: ClosingCurlyBracketCharacter,
-	): FunctionBodyContentFinalWhitespaceCharactersParser {
-		const functionBodyContentFinalWhitespaceCharactersParser =
-			new FunctionBodyContentFinalWhitespaceCharactersParser(
-				null,
-				character,
-				this.whitespaceCharacters,
-			);
+	): FunctionBodyContentParser {
+		const functionBodyContentFinalWhitespaceCharactersParser = new FunctionBodyContentParser(
+			character,
+			this.sourceFileContentFinalWhitespaceCharacters,
+		);
 
 		return functionBodyContentFinalWhitespaceCharactersParser;
 	}
